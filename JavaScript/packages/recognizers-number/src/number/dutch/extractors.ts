@@ -77,7 +77,7 @@ export class DutchIntegerExtractor extends BaseNumberExtractor {
                 value: "IntegerNum"
             },
             {
-                regExp: this.generateLongFormatNumberRegexes(LongFormatType.integerNumComma, placeholder),
+                regExp: this.generateLongFormatNumberRegexes(LongFormatType.integerNumDot, placeholder),
                 value: "IntegerNum"
             },
             {
@@ -126,11 +126,11 @@ export class DutchDoubleExtractor extends BaseNumberExtractor {
                 value: "DoubleNum"
             },
             {
-                regExp: this.generateLongFormatNumberRegexes(LongFormatType.doubleNumCommaDot, placeholder),
+                regExp: this.generateLongFormatNumberRegexes(LongFormatType.doubleNumDotComma, placeholder),
                 value: "DoubleNum"
             },
             {
-                regExp: this.generateLongFormatNumberRegexes(LongFormatType.doubleNumNoBreakSpaceDot, placeholder),
+                regExp: this.generateLongFormatNumberRegexes(LongFormatType.doubleNumNoBreakSpaceComma, placeholder),
                 value: "DoubleNum"
             },
             {
