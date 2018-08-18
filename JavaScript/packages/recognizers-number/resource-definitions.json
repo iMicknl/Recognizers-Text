@@ -62,6 +62,15 @@
                 "export namespace FrenchNumeric {"
             ],
             "footer": [ "}" ]
+        },
+        {
+            "input": [ "Dutch", "Dutch-Numbers" ],
+            "output": "dutchNumeric",
+            "header": [
+                "import { BaseNumbers } from \"./baseNumbers\";",
+                "export namespace DutchNumeric {"
+            ],
+            "footer": [ "}" ]
         }
     ]
 }

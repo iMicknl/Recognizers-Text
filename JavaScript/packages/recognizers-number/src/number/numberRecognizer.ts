@@ -9,12 +9,14 @@ import { PortugueseNumberParserConfiguration } from "./portuguese/parserConfigur
 import { FrenchNumberParserConfiguration } from "./french/parserConfiguration";
 import { ChineseNumberParserConfiguration } from "./chinese/parserConfiguration";
 import { JapaneseNumberParserConfiguration } from "./japanese/parserConfiguration";
+import { DutchNumberParserConfiguration } from "./dutch/parserConfiguration";
 import { EnglishNumberExtractor, EnglishOrdinalExtractor, EnglishPercentageExtractor } from "./english/extractors";
 import { SpanishNumberExtractor, SpanishOrdinalExtractor, SpanishPercentageExtractor } from "./spanish/extractors";
 import { PortugueseNumberExtractor, PortugueseOrdinalExtractor, PortuguesePercentageExtractor } from "./portuguese/extractors";
 import { FrenchNumberExtractor, FrenchOrdinalExtractor, FrenchPercentageExtractor } from "./french/extractors";
 import { ChineseNumberExtractor, ChineseOrdinalExtractor, ChinesePercentageExtractor } from "./chinese/extractors";
 import { JapaneseNumberExtractor, JapaneseOrdinalExtractor, JapanesePercentageExtractor } from "./japanese/extractors";
+import { DutchNumberExtractor } from "./dutch/extractors";
 
 export enum NumberOptions {
     None = 0,
@@ -114,6 +116,12 @@ export default class NumberRecognizer extends Recognizer<NumberOptions> {
         this.registerModel("PercentModel", Culture.French, (options) => new PercentModel(
             AgnosticNumberParserFactory.getParser(AgnosticNumberParserType.Percentage, new FrenchNumberParserConfiguration()),
             new FrenchPercentageExtractor()));
+        //#endregion
+
+        //#region Dutch
+        this.registerModel("NumberModel", Culture.Dutch, (options) => new NumberModel(
+            AgnosticNumberParserFactory.getParser(AgnosticNumberParserType.Number, new DutchNumberParserConfiguration()),
+            new DutchNumberExtractor(NumberMode.PureNumber)));
         //#endregion
     }
 
