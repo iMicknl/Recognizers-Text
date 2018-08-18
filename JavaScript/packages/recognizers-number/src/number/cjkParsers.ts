@@ -1,12 +1,7 @@
-import { ExtractResult, IParser, ParseResult } from "@microsoft/recognizers-text";
+import { ExtractResult, ParseResult } from "@microsoft/recognizers-text";
 import { BaseNumberParser, INumberParserConfiguration } from "./parsers";
-import { Constants } from "./constants";
-import { LongFormatType } from "./models";
-import { CultureInfo, Culture } from "../culture";
+import { Culture } from "../culture";
 import { RegExpUtility, StringUtility } from "@microsoft/recognizers-text";
-import { BigNumber } from 'bignumber.js/bignumber';
-import trimEnd = require("lodash.trimend");
-import sortBy = require("lodash.sortby");
 
 export interface ICJKNumberParserConfiguration extends INumberParserConfiguration {
     readonly zeroToNineMap: ReadonlyMap<string, number>;

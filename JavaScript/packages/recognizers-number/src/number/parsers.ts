@@ -1,6 +1,5 @@
 import { IParser, ParseResult, ExtractResult } from "@microsoft/recognizers-text";
-import { CultureInfo, Culture } from "../culture";
-import { Constants } from "./constants";
+import { CultureInfo } from "../culture";
 import trimEnd = require("lodash.trimend");
 import sortBy = require("lodash.sortby");
 import { RegExpUtility } from "@microsoft/recognizers-text";
