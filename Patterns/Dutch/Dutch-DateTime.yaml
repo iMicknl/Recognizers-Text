@@ -40,14 +40,14 @@ YearRegex: !nestedRegex
   def: ({YearNumRegex}|{FullTextYearRegex})
   references: [ YearNumRegex, FullTextYearRegex ]
 WeekDayRegex: !simpleRegex
-  def: \b(?<weekday>Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Mon|Tues|Tue|Wedn|Weds|Wed|Thurs|Thur|Thu|Fri|Sat|Sun)s?\b
+  def: \b(?<weekday>maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag|ma|di|wo|woe|do|vr|vrij|za|zat|zo|zon)s?\b
 SingleWeekDayRegex: !simpleRegex
-  def: \b(?<weekday>Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Mon|Tue|Tues|Wedn|Weds|Wed|Thurs|Thur|Thu|Fri|((?<=on\s+)(Sat|Sun)))\b
+  def: \b(?<weekday>maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag|ma|di|wo|woe|do|vr|vrij|za|zat|zo|zon|((?<=on\s+)(Sat|Sun)))\b
 RelativeMonthRegex: !nestedRegex
   def: (?<relmonth>(of\s+)?{RelativeRegex}\s+month)\b
   references: [RelativeRegex]
 WrittenMonthRegex: !simpleRegex
-  def: (((the\s+)?month of\s+)?(?<month>April|Apr|August|Aug|December|Dec|February|Feb|January|Jan|July|Jul|June|Jun|March|Mar|May|November|Nov|October|Oct|September|Sept|Sep))
+  def: (((the\s+)?month of\s+)?(?<month>januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|okt|nov|dec))
 MonthSuffixRegex: !nestedRegex
   def: (?<msuf>(in\s+|of\s+|on\s+)?({RelativeMonthRegex}|{WrittenMonthRegex}))
   references: [ RelativeMonthRegex, WrittenMonthRegex ]
@@ -69,7 +69,7 @@ MonthWithYear: !nestedRegex
   def: \b(({WrittenMonthRegex}(\.)?(\s*),?(\s+of)?(\s*)({YearRegex}|(?<order>following|next|last|this)\s+year))|(({YearRegex}|(?<order>following|next|last|this)\s+year)(\s*),?(\s*){WrittenMonthRegex}))\b
   references: [ WrittenMonthRegex, YearRegex ]
 OneWordPeriodRegex: !nestedRegex
-  def: \b((((the\s+)?month of\s+)?({StrictRelativeRegex}\s+)?(?<month>April|Apr|August|Aug|December|Dec|February|Feb|January|Jan|July|Jul|June|Jun|March|Mar|May|November|Nov|October|Oct|September|Sep|Sept))|(month|year) to date|({RelativeRegex}\s+)?(my\s+)?(weekend|week|month|year)(?!((\s+of)?\s+\d+|\s+to\s+date))(\s+{AfterNextSuffixRegex})?)\b
+  def: \b((((the\s+)?month of\s+)?({StrictRelativeRegex}\s+)?(?<month>januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|okt|nov|dec))|(maand|jaar) to date|({RelativeRegex}\s+)?(my\s+)?(weekend|week|month|year)(?!((\s+of)?\s+\d+|\s+to\s+date))(\s+{AfterNextSuffixRegex})?)\b
   references: [ StrictRelativeRegex, RelativeRegex, AfterNextSuffixRegex ]
 MonthNumWithYear: !nestedRegex
   def: \b(({YearNumRegex}(\s*)[/\-\.](\s*){MonthNumRegex})|({MonthNumRegex}(\s*)[/\-](\s*){YearNumRegex}))\b
@@ -87,7 +87,7 @@ NumberCombinedWithDateUnit: !nestedRegex
   def: \b(?<num>\d+(\.\d*)?){DateUnitRegex}
   references: [ DateUnitRegex ]
 QuarterTermRegex: !simpleRegex
-  def: \b(((?<cardinal>first|1st|second|2nd|third|3rd|fourth|4th)[ -]+quarter)|(Q(?<number>[1-4])))\b
+  def: \b(((?<cardinal>eerste|1e|tweede|2e|derde|3e|vierde|4e)[ -]+kwartaal)|(Q(?<number>[1-4])))\b
 QuarterRegex: !nestedRegex
   def: (the\s+)?{QuarterTermRegex}((\s+of|\s*,\s*)?\s+({YearRegex}|{RelativeRegex}\s+year))?
   references: [ YearRegex, RelativeRegex, QuarterTermRegex ]
@@ -120,18 +120,18 @@ PrefixPeriodRegex: !nestedRegex
 PrefixDayRegex: !simpleRegex
   def: \b((?<EarlyPrefix>early)|(?<MidPrefix>mid|middle)|(?<LatePrefix>late|later))(\s+in)?(\s+the\s+day)?$
 SeasonDescRegex: !simpleRegex
-  def: (?<seas>spring|summer|fall|autumn|winter)
+  def: (?<seas>lente|zomer|herfst|winter)
 SeasonRegex: !nestedRegex
   def: \b(?<season>({PrefixPeriodRegex}\s+)?({RelativeRegex}\s+)?{SeasonDescRegex}((\s+of|\s*,\s*)?\s+({YearRegex}|{RelativeRegex}\s+year))?)\b
   references: [ YearRegex, RelativeRegex, SeasonDescRegex, PrefixPeriodRegex ]
 WhichWeekRegex: !simpleRegex
   def: (week)(\s*)(?<number>\d\d|\d|0\d)
 WeekOfRegex: !simpleRegex
-  def: (the\s+)?(week)(\s+of)(\s+the)?
+  def: (de\s+)?(week)(\s+van)(\s+de)?
 MonthOfRegex: !simpleRegex
   def: (month)(\s*)(of)
 MonthRegex: !simpleRegex
-  def: (?<month>April|Apr|August|Aug|December|Dec|February|Feb|January|Jan|July|Jul|June|Jun|March|Mar|May|November|Nov|October|Oct|September|Sept|Sep)
+  def: (?<month>januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|okt|nov|dec)
 #Cases collected from mined data 
 AmbiguousMonthP0Regex: !simpleRegex
   def: \b((^may i)|(i|you|he|she|we|they)\s+may|(may\s+((((also|not|(also not)|well)\s+)?(be|contain|constitute|email|e-mail|take|have|result|involve|get|work|reply))|(or may not))))\b
@@ -165,7 +165,7 @@ SpecialDayRegex: !nestedRegex
   def: \b((the\s+)?day before yesterday|(the\s+)?day after (tomorrow|tmr)|((the\s+)?({RelativeRegex}|my)\s+day)|yesterday|tomorrow|tmr|today)\b
   references: [ RelativeRegex ]
 SpecialDayWithNumRegex: !nestedRegex
-  def: \b((?<number>{WrittenNumRegex})\s+days?\s+from\s+(?<day>yesterday|tomorrow|tmr|today))\b
+  def: \b((?<number>{WrittenNumRegex})\s+dagen?\s+vanaf\s+(?<day>gisteren|morgen|vandaag))\b
   references: [ WrittenNumRegex ]
 RelativeDayRegex: !nestedRegex
   def: \b(((the\s+)?{RelativeRegex}\s+day))\b
@@ -281,9 +281,9 @@ IshRegex: !nestedRegex
   def: '\b({BaseDateTime.HourRegex}(-|——)?ish|noonish|noon)\b'
   references: [ BaseDateTime.HourRegex ]
 TimeUnitRegex: !simpleRegex
-  def: ([^A-Za-z]{1,}|\b)(?<unit>hours|hour|hrs|hr|h|minutes|minute|mins|min|seconds|second|secs|sec)\b
+  def: ([^A-Za-z]{1,}|\b)(?<unit>uren|uur|u|minuten|minuut|min|secondes|seconden|seconde|secs|sec)\b
 RestrictedTimeUnitRegex: !simpleRegex
-  def: (?<unit>hour|minute)\b
+  def: (?<unit>uur|minuut)\b
 FivesRegex: !simpleRegex
   def: (?<tens>(fifteen|twenty(\s*five)?|thirty(\s*five)?|forty(\s*five)?|fourty(\s*five)?|fifty(\s*five)?|ten|five))\b
 HourRegex: !nestedRegex
@@ -413,11 +413,11 @@ AnUnitRegex: !nestedRegex
   def: \b((?<half>half\s+)?(an|a)|another)\s+{DurationUnitRegex}
   references: [ DurationUnitRegex ]
 DuringRegex: !simpleRegex
-  def: \b(for|during)\s+the\s+(?<unit>year|month|week|day)\b
+  def: \b(for|during)\s+the\s+(?<unit>jaar|maand|week|dag)\b
 AllRegex: !simpleRegex
-  def: \b(?<all>(all|full|whole)(\s+|-)(?<unit>year|month|week|day))\b
+  def: \b(?<all>(all|full|whole)(\s+|-)(?<unit>jaar|maand|week|dag))\b
 HalfRegex: !simpleRegex
-  def: (((a|an)\s*)|\b)(?<half>half\s+(?<unit>year|month|week|day|hour))\b
+  def: (((a|an)\s*)|\b)(?<half>half\s+(?<unit>jaar|maand|week|dag|uur))\b
 ConjunctionRegex: !simpleRegex
   def: \b((and(\s+for)?)|with)\b
 HolidayRegex1: !nestedRegex
@@ -429,14 +429,14 @@ HolidayRegex2: !nestedRegex
 HolidayRegex3: !nestedRegex
   def: (?<holiday>(independence|mlk|martin luther king|martin luther king jr|canberra|easter|columbus|thanks\s*giving|christmas|xmas|labour|(international|int'l)\s+workers'?|mother's|mother|mothers|father's|father|fathers|female|single|teacher's|youth|children|arbor|girls|chsmilbuild|lover|labor|inauguration|groundhog|valentine's|baptiste|bastille|halloween|veterans|memorial|mid(-| )autumn|moon|spring|lantern|qingming|dragon boat|new years'|new year's|new year 's|new years|new year)\s+(day))(\s+(of\s+)?({YearRegex}|{RelativeRegex}\s+year))?
   references: [ YearRegex, RelativeRegex ]
-DateTokenPrefix: 'on '
-TimeTokenPrefix: 'at '
-TokenBeforeDate: 'on '
-TokenBeforeTime: 'at '
+DateTokenPrefix: 'op '
+TimeTokenPrefix: 'om '
+TokenBeforeDate: 'op '
+TokenBeforeTime: 'om '
 AMTimeRegex: !simpleRegex
-  def: (?<am>morning)
+  def: (?<am>'s morgens)
 PMTimeRegex: !simpleRegex
-  def: \b(?<pm>afternoon|evening|night)\b
+  def: \b(?<pm>'s middags|'s avonds|'s nachts)\b
 InclusiveModPrepositions: !simpleRegex
   def: (?<include>((on|in|at)\s+or\s+)|(\s+or\s+(on|in|at)))
 BeforeRegex: !nestedRegex
@@ -450,9 +450,9 @@ SinceRegex: !simpleRegex
 AroundRegex: !simpleRegex
   def: (\b(around|circa)\s*\b)
 AgoRegex: !simpleRegex
-  def: \b(ago|before\s+(?<day>yesterday|today))\b
+  def: \b(ago|before\s+(?<day>gisteren|vandaag))\b
 LaterRegex: !simpleRegex
-  def: \b(later|from now|(from|after) (?<day>tomorrow|tmr|today))\b
+  def: \b(later|from now|(from|after) (?<day>morgen|vandaag))\b
 InConnectorRegex: !simpleRegex
   def: \b(in)\b
 WithinNextPrefixRegex: !nestedRegex
@@ -483,7 +483,7 @@ RelativeDurationUnitRegex: !nestedRegex
   def: (((?<=({NextPrefixRegex}|{PastPrefixRegex}|{ThisPrefixRegex})\s+)({DurationUnitRegex}))|((the|my))\s+({RestrictedTimeUnitRegex}))
   references: [NextPrefixRegex, PastPrefixRegex, ThisPrefixRegex, DurationUnitRegex, RestrictedTimeUnitRegex]
 ReferenceDatePeriodRegex: !nestedRegex
-  def: \b{ReferencePrefixRegex}\s+(?<duration>week|month|year|decade|weekend)\b
+  def: \b{ReferencePrefixRegex}\s+(?<duration>week|maand|jaar|decennium|weekend)\b
   references: [ReferencePrefixRegex]
 ConnectorRegex: !simpleRegex
   def: ^(-|,|for|t|around|@)$
@@ -507,7 +507,7 @@ WeekDayAndDayOfMonthRegex: !nestedRegex
   def: \b{WeekDayRegex}\s+(the\s+{FlexibleDayRegex})\b
   references: [WeekDayRegex, FlexibleDayRegex]
 RestOfDateRegex: !simpleRegex
-  def: \bRest\s+(of\s+)?((the|my|this|current)\s+)?(?<duration>week|month|year|decade)\b
+  def: \bRest\s+(of\s+)?((the|my|this|current)\s+)?(?<duration>week|maand|jaar|decennium)\b
 RestOfDateTimeRegex: !simpleRegex
   def: \bRest\s+(of\s+)?((the|my|this|current)\s+)?(?<unit>day)\b
 MealTimeRegex: !simpleRegex
@@ -608,6 +608,7 @@ UnitValueMap: !dictionary
     minuut: 60
     min: 60
     secondes: 1
+    seconden: 1
     seconde: 1
     secs: 1
     sec: 1
@@ -871,6 +872,7 @@ DoubleNumbers: !dictionary
   entries: 
     half: 0.5
     quarter: 0.25
+    kwartaal: 0.25
 HolidayNames: !dictionary
   types: [ string, 'string[]' ]
   entries: 
