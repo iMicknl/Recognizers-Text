@@ -98,6 +98,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ChoiceDefinitions.tt</DependentUpon>
     </Compile>
+    <Compile Update="Dutch\DateTimeDefinitions.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DateTimeDefinitions.tt</DependentUpon>
+    </Compile>
     <Compile Update="Dutch\NumberDefinitions.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -291,6 +296,10 @@
     <None Update="Chinese\NumbersWithUnitDefinitions.tt">
     </None>
     <None Update="Dutch\ChoiceDefinitions.tt">
+    </None>
+    <None Update="Dutch\DateTimeDefinitions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DateTimeDefinitions.cs</LastGenOutput>
     </None>
     <None Update="Dutch\NumberDefinitions.tt">
     </None>
