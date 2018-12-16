@@ -6,6 +6,7 @@ namespace Microsoft.Recognizers.Text.Number.Tests
     [TestClass]
     public class TestNumber_English : TestBase
     {
+<<<<<<< HEAD
         public static TestResources TestResources { get; protected set; }
 
         [ClassInitialize]
@@ -22,30 +23,49 @@ namespace Microsoft.Recognizers.Text.Number.Tests
         }
 
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "NumberModel-English.csv", "NumberModel-English#csv", DataAccessMethod.Sequential)]
+=======
+        [NetCoreTestDataSource]
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         [TestMethod]
-        public void NumberModel()
+        public void NumberModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "NumberModelPercentMode-English.csv", "NumberModelPercentMode-English#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void NumberModelPercentMode()
+        public void NumberModelPercentMode(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "NumberModelExperimentalMode-English.csv", "NumberModelExperimentalMode-English#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void NumberModelExperimentalMode()
+        public void NumberModelExperimentalMode(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "OrdinalModel-English.csv", "OrdinalModel-English#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void OrdinalModel()
+        public void OrdinalModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
         }
 
@@ -54,34 +74,58 @@ namespace Microsoft.Recognizers.Text.Number.Tests
         public void OrdinalModelEnablePreview()
         {
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "PercentModel-English.csv", "PercentModel-English#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void PercentModel()
+        public void PercentModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "PercentModelPercentMode-English.csv", "PercentModelPercentMode-English#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void PercentModelPercentMode()
+        public void PercentModelPercentMode(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "NumberRangeModel-English.csv", "NumberRangeModel-English#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void NumberRangeModel()
+        public void NumberRangeModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "NumberRangeModelExperimentalMode-English.csv", "NumberRangeModelExperimentalMode-English#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void NumberRangeModelExperimentalMode()
+        public void NumberRangeModelExperimentalMode(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
     }
 }

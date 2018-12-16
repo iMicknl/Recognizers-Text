@@ -6,6 +6,7 @@ namespace Microsoft.Recognizers.Text.Number.Tests
     [TestClass]
     public class TestNumber_Dutch : TestBase
     {
+<<<<<<< HEAD
         public static TestResources TestResources { get; protected set; }
 
         [ClassInitialize]
@@ -22,65 +23,108 @@ namespace Microsoft.Recognizers.Text.Number.Tests
         }
 
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "NumberModel-Dutch.csv", "NumberModel-Dutch#csv", DataAccessMethod.Sequential)]
+=======
+        [NetCoreTestDataSource]
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         [TestMethod]
-        public void NumberModel()
+        public void NumberModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "NumberModelPercentMode-Dutch.csv", "NumberModelPercentMode-Dutch#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void NumberModelPercentMode()
+        public void NumberModelPercentMode(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
         /*
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "NumberModelExperimentalMode-Dutch.csv", "NumberModelExperimentalMode-Dutch#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void NumberModelExperimentalMode()
+        public void NumberModelExperimentalMode(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
         */
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "OrdinalModel-Dutch.csv", "OrdinalModel-Dutch#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void OrdinalModel()
+        public void OrdinalModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
         /*
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "PercentModel-Dutch.csv", "PercentModel-Dutch#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void PercentModel()
+        public void PercentModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "PercentModelPercentMode-Dutch.csv", "PercentModelPercentMode-Dutch#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void PercentModelPercentMode()
+        public void PercentModelPercentMode(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
         /*
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "NumberRangeModel-Dutch.csv", "NumberRangeModel-Dutch#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void NumberRangeModel()
+        public void NumberRangeModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
         */
 
         /*
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "NumberRangeModelExperimentalMode-Dutch.csv", "NumberRangeModelExperimentalMode-Dutch#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void NumberRangeModelExperimentalMode()
+        public void NumberRangeModelExperimentalMode(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
         */
     }

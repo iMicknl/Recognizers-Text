@@ -6,6 +6,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.Tests
     [TestClass]
     public class TestNumberWithUnit_Italian : TestBase
     {
+<<<<<<< HEAD
         public static TestResources TestResources { get; protected set; }
 
         [ClassInitialize]
@@ -22,31 +23,54 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.Tests
         }
 
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "AgeModel-Italian.csv", "AgeModel-Italian#csv", DataAccessMethod.Sequential)]
+=======
+        [NetCoreTestDataSource]
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         [TestMethod]
-        public void AgeModel()
+        public void AgeModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumberWithUnit();
+=======
+            TestSpec = testSpec;
+            base.TestNumberWithUnit();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "CurrencyModel-Italian.csv", "CurrencyModel-Italian#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void CurrencyModel()
+        public void CurrencyModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumberWithUnit();
+=======
+            TestSpec = testSpec;
+            base.TestNumberWithUnit();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "DimensionModel-Italian.csv", "DimensionModel-Italian#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void DimensionModel()
+        public void DimensionModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumberWithUnit();
+=======
+            TestSpec = testSpec;
+            base.TestNumberWithUnit();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "TemperatureModel-Italian.csv", "TemperatureModel-Italian#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void TemperatureModel()
+        public void TemperatureModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumberWithUnit();
+=======
+            TestSpec = testSpec;
+            base.TestNumberWithUnit();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
     }
 }

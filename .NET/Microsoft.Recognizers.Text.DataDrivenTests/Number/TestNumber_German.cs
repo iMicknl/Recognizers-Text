@@ -6,6 +6,7 @@ namespace Microsoft.Recognizers.Text.Number.Tests
     [TestClass]
     public class TestNumber_German : TestBase
     {
+<<<<<<< HEAD
         public static TestResources TestResources { get; protected set; }
 
         [ClassInitialize]
@@ -22,24 +23,42 @@ namespace Microsoft.Recognizers.Text.Number.Tests
         }
 
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "NumberModel-German.csv", "NumberModel-German#csv", DataAccessMethod.Sequential)]
+=======
+        [NetCoreTestDataSource]
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         [TestMethod]
-        public void NumberModel()
+        public void NumberModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "OrdinalModel-German.csv", "OrdinalModel-German#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void OrdinalModel()
+        public void OrdinalModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
 
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "PercentModel-German.csv", "PercentModel-German#csv", DataAccessMethod.Sequential)]
+        [NetCoreTestDataSource]
         [TestMethod]
-        public void PercentModel()
+        public void PercentModel(TestModel testSpec)
         {
+<<<<<<< HEAD
             TestNumber();
+=======
+            TestSpec = testSpec;
+            base.TestNumber();
+>>>>>>> Enable Microsoft.Recognizers.Text.DataDrivenTests.csproj for .Net Core
         }
     }
 }
