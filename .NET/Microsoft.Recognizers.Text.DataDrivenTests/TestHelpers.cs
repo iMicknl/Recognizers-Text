@@ -419,6 +419,7 @@ namespace Microsoft.Recognizers.Text.DataDrivenTests
         public static IDateTimeExtractor GetDutchExtractor(DateTimeExtractors extractorName)
         {
             var config = new BaseOptionsConfiguration();
+            var previewConfig = new BaseOptionsConfiguration(DateTimeOptions.EnablePreview);
             switch (extractorName)
             {
                 case DateTimeExtractors.Date:
@@ -437,12 +438,14 @@ namespace Microsoft.Recognizers.Text.DataDrivenTests
                     return new BaseDurationExtractor(new DutchDurationExtractorConfiguration(config));
                 case DateTimeExtractors.Holiday:
                     return new BaseHolidayExtractor(new DutchHolidayExtractorConfiguration(config));
+                case DateTimeExtractors.TimeZone:
+                    return new BaseTimeZoneExtractor(new DutchTimeZoneExtractorConfiguration(previewConfig));
                 case DateTimeExtractors.Set:
                     return new BaseSetExtractor(new DutchSetExtractorConfiguration(config));
                 case DateTimeExtractors.Merged:
-                    return new BaseMergedDateTimeExtractor(new DutchMergedExtractorConfiguration(DateTimeOptions.None));
+                    return new BaseMergedDateTimeExtractor(new DutchMergedExtractorConfiguration(config));
                 case DateTimeExtractors.MergedSkipFromTo:
-                    return new BaseMergedDateTimeExtractor(new DutchMergedExtractorConfiguration(DateTimeOptions.SkipFromToMerge));
+                    return new BaseMergedDateTimeExtractor(new DutchMergedExtractorConfiguration(new BaseOptionsConfiguration(DateTimeOptions.SkipFromToMerge)));
             }
 
             throw new Exception($"Extractor '{extractorName}' for Dutch not supported");
@@ -468,11 +471,13 @@ namespace Microsoft.Recognizers.Text.DataDrivenTests
                 case DateTimeParsers.Duration:
                     return new BaseDurationParser(new DutchDurationParserConfiguration(commonConfiguration));
                 case DateTimeParsers.Holiday:
-                    return new HolidayParserGer(new DutchHolidayParserConfiguration(commonConfiguration));
+                    return new BaseHolidayParser(new DutchHolidayParserConfiguration(commonConfiguration));
+                case DateTimeParsers.TimeZone:
+                    return new BaseTimeZoneParser();
                 case DateTimeParsers.Set:
                     return new BaseSetParser(new DutchSetParserConfiguration(commonConfiguration));
                 case DateTimeParsers.Merged:
-                    return new BaseMergedDateTimeParser(new DutchMergedParserConfiguration(commonConfiguration));
+                    return new BaseMergedDateTimeParser(new DutchMergedParserConfiguration(new BaseOptionsConfiguration()));
             }
 
             throw new Exception($"Parser '{parserName}' for Dutch not supported");
