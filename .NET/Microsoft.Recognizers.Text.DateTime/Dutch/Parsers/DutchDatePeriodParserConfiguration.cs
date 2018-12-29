@@ -1,8 +1,9 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 using Microsoft.Recognizers.Definitions.Dutch;
-using Microsoft.Recognizers.Text.Number;
 
 namespace Microsoft.Recognizers.Text.DateTime.Dutch
 {
@@ -14,9 +15,21 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
 
         public string TokenBeforeDate { get; }
 
+        public static IList<string> MonthTermsPadded = 
+            DateTimeDefinitions.MonthTerms.Select(str => $" {str} ").ToList();
+
+        public static IList<string> WeekendTermsPadded = 
+            DateTimeDefinitions.WeekendTerms.Select(str => $" {str} ").ToList();
+
+        public static IList<string> WeekTermsPadded = 
+            DateTimeDefinitions.WeekTerms.Select(str => $" {str} ").ToList();
+
+        public static IList<string> YearTermsPadded = 
+            DateTimeDefinitions.YearTerms.Select(str => $" {str} ").ToList();
+
         #region internalParsers
 
-        public IDateTimeExtractor DateExtractor { get; }
+        public IDateExtractor DateExtractor { get; }
 
         public IExtractor CardinalExtractor { get; }
 
@@ -72,30 +85,27 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
         public Regex LaterRegex { get; }
         public Regex LessThanRegex { get; }
         public Regex MoreThanRegex { get; }
-
         public Regex CenturySuffixRegex { get; }
 
         public static readonly Regex NextPrefixRegex =
-            new Regex(
-                DateTimeDefinitions.NextPrefixRegex,
-                RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            new Regex(DateTimeDefinitions.NextPrefixRegex, RegexOptions.Singleline);
         public static readonly Regex PastPrefixRegex =
-            new Regex(
-                DateTimeDefinitions.PastPrefixRegex,
-                RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            new Regex(DateTimeDefinitions.PastPrefixRegex, RegexOptions.Singleline);
         public static readonly Regex ThisPrefixRegex =
-            new Regex(
-                DateTimeDefinitions.ThisPrefixRegex,
-                RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            new Regex(DateTimeDefinitions.ThisPrefixRegex, RegexOptions.Singleline);
         public static readonly Regex AfterNextSuffixRegex =
-            new Regex(
-                DateTimeDefinitions.AfterNextSuffixRegex,
-                RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            new Regex(DateTimeDefinitions.AfterNextSuffixRegex, RegexOptions.Singleline);
+        public static readonly Regex RelativeRegex =
+            new Regex(DateTimeDefinitions.RelativeRegex, RegexOptions.Singleline);
+        public static readonly Regex UnspecificEndOfRangeRegex =
+            new Regex(DateTimeDefinitions.UnspecificEndOfRangeRegex, RegexOptions.Singleline);
 
         Regex IDatePeriodParserConfiguration.NextPrefixRegex => NextPrefixRegex;
         Regex IDatePeriodParserConfiguration.PastPrefixRegex => PastPrefixRegex;
         Regex IDatePeriodParserConfiguration.ThisPrefixRegex => ThisPrefixRegex;
-        
+        Regex IDatePeriodParserConfiguration.RelativeRegex => RelativeRegex;
+        Regex IDatePeriodParserConfiguration.UnspecificEndOfRangeRegex => UnspecificEndOfRangeRegex;
+
         #endregion
 
         #region Dictionaries
@@ -121,7 +131,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
 
         public DutchDatePeriodParserConfiguration(ICommonDateTimeParserConfiguration config) : base(config)
         {
-            TokenBeforeDate = DateTimeDefinitions.TokenBeforeDate;
+            TokenBeforeDate = DateTimeDefinitions.TokenBeforeDate;           
             CardinalExtractor = config.CardinalExtractor;
             OrdinalExtractor = config.OrdinalExtractor;
             IntegerExtractor = config.IntegerExtractor;
@@ -179,8 +189,10 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
 
         public int GetSwiftDayOrMonth(string text)
         {
-            var trimmedText = text.Trim().ToLowerInvariant();
             var swift = 0;
+
+            var trimmedText = text.Trim().ToLowerInvariant();
+            
             if (AfterNextSuffixRegex.IsMatch(trimmedText))
             {
                 swift = 2;
@@ -193,13 +205,16 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
             {
                 swift = -1;
             }
+
             return swift;
         }
 
         public int GetSwiftYear(string text)
         {
-            var trimmedText = text.Trim().ToLowerInvariant();
             var swift = -10;
+
+            var trimmedText = text.Trim().ToLowerInvariant();
+            
             if (AfterNextSuffixRegex.IsMatch(trimmedText))
             {
                 swift = 2;
@@ -216,55 +231,61 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
             {
                 swift = 0;
             }
+
             return swift;
         }
 
         public bool IsFuture(string text)
         {
             var trimmedText = text.Trim().ToLowerInvariant();
-            return (trimmedText.StartsWith("this") || trimmedText.StartsWith("next"));
+            return DateTimeDefinitions.FutureTerms.Any(o => trimmedText.StartsWith(o));
         }
 
         public bool IsLastCardinal(string text)
         {
             var trimmedText = text.Trim().ToLowerInvariant();
-            return trimmedText.Equals("last");
+            return DateTimeDefinitions.LastCardinalTerms.Any(o => trimmedText.Equals(o));
         }
 
         public bool IsMonthOnly(string text)
         {
             var trimmedText = text.Trim().ToLowerInvariant();
-            return trimmedText.EndsWith("month") || trimmedText.Contains(" month ") && AfterNextSuffixRegex.IsMatch(trimmedText);
+            return DateTimeDefinitions.MonthTerms.Any(o => trimmedText.EndsWith(o)) ||
+                   (MonthTermsPadded.Any(o => trimmedText.Contains(o)) && AfterNextSuffixRegex.IsMatch(trimmedText));
         }
 
         public bool IsMonthToDate(string text)
         {
             var trimmedText = text.Trim().ToLowerInvariant();
-            return trimmedText.Equals("month to date");
+            return DateTimeDefinitions.MonthToDateTerms.Any(o => trimmedText.Equals(o));
         }
 
         public bool IsWeekend(string text)
         {
             var trimmedText = text.Trim().ToLowerInvariant();
-            return trimmedText.EndsWith("weekend") || trimmedText.Contains(" weekend ") && AfterNextSuffixRegex.IsMatch(trimmedText);
+            return DateTimeDefinitions.WeekendTerms.Any(o => trimmedText.EndsWith(o)) ||
+                   (WeekendTermsPadded.Any(o => trimmedText.Contains(o)) && AfterNextSuffixRegex.IsMatch(trimmedText));
         }
 
         public bool IsWeekOnly(string text)
         {
             var trimmedText = text.Trim().ToLowerInvariant();
-            return trimmedText.EndsWith("week") || trimmedText.Contains(" week ") && AfterNextSuffixRegex.IsMatch(trimmedText);
+            return DateTimeDefinitions.WeekTerms.Any(o => trimmedText.EndsWith(o)) ||
+                   (WeekTermsPadded.Any(o => trimmedText.Contains(o)) && AfterNextSuffixRegex.IsMatch(trimmedText));
         }
 
         public bool IsYearOnly(string text)
         {
             var trimmedText = text.Trim().ToLowerInvariant();
-            return trimmedText.EndsWith("year") || trimmedText.Contains(" year ") && AfterNextSuffixRegex.IsMatch(trimmedText);
+            return DateTimeDefinitions.YearTerms.Any(o => trimmedText.EndsWith(o)) ||
+                   (YearTermsPadded.Any(o => trimmedText.Contains(o)) && AfterNextSuffixRegex.IsMatch(trimmedText)) ||
+                   (DateTimeDefinitions.GenericYearTerms.Any(o => trimmedText.EndsWith(o)) && UnspecificEndOfRangeRegex.IsMatch(trimmedText));
         }
 
         public bool IsYearToDate(string text)
         {
             var trimmedText = text.Trim().ToLowerInvariant();
-            return trimmedText.Equals("year to date");
+            return DateTimeDefinitions.YearToDateTerms.Any(o => trimmedText.Equals(o));
         }
 
     }

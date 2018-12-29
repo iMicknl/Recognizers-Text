@@ -23,8 +23,6 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
 
         public IDateTimeParser HolidayParser { get; }
 
-        public IDateTimeParser TimeZoneParser { get; }
-
         public StringMatcher SuperfluousWordMatcher { get; }
 
         public DutchMergedParserConfiguration(IOptionsConfiguration config) : base(config)

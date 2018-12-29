@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 
 using Microsoft.Recognizers.Text.DateTime.Utilities;
 using Microsoft.Recognizers.Definitions.Dutch;
-using Microsoft.Recognizers.Text.Number;
 
 namespace Microsoft.Recognizers.Text.DateTime.Dutch
 {
@@ -13,7 +12,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
 
         public string TokenBeforeTime { get; }
 
-        public IDateTimeExtractor DateExtractor { get; }
+        public IDateExtractor DateExtractor { get; }
 
         public IDateTimeExtractor TimeExtractor { get; }
 
@@ -35,9 +34,15 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
 
         public Regex NowRegex { get; }
 
-        public Regex AMTimeRegex { get; }
+        public Regex AMTimeRegex => AmTimeRegex;
 
-        public Regex PMTimeRegex { get; }
+        public Regex PMTimeRegex => PmTimeRegex;
+
+        public static readonly Regex AmTimeRegex = 
+            new Regex(DateTimeDefinitions.AMTimeRegex, RegexOptions.Singleline);
+
+        public static readonly Regex PmTimeRegex =
+            new Regex(DateTimeDefinitions.PMTimeRegex, RegexOptions.Singleline);
 
         public Regex SimpleTimeOfTodayAfterRegex { get; }
 
@@ -45,7 +50,9 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
 
         public Regex SpecificTimeOfDayRegex { get; }
 
-        public Regex TheEndOfRegex { get; }
+        public Regex SpecificEndOfRegex { get; }
+
+        public Regex UnspecificEndOfRegex { get; }
 
         public Regex UnitRegex { get; }
 
@@ -72,13 +79,11 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
 
             NowRegex = DutchDateTimeExtractorConfiguration.NowRegex;
 
-            AMTimeRegex = new Regex(DateTimeDefinitions.AMTimeRegex, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            PMTimeRegex = new Regex(DateTimeDefinitions.PMTimeRegex, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
             SimpleTimeOfTodayAfterRegex = DutchDateTimeExtractorConfiguration.SimpleTimeOfTodayAfterRegex;
             SimpleTimeOfTodayBeforeRegex = DutchDateTimeExtractorConfiguration.SimpleTimeOfTodayBeforeRegex;
             SpecificTimeOfDayRegex = DutchDateTimeExtractorConfiguration.SpecificTimeOfDayRegex;
-            TheEndOfRegex = DutchDateTimeExtractorConfiguration.TheEndOfRegex;
+            SpecificEndOfRegex = DutchDateTimeExtractorConfiguration.SpecificEndOfRegex;
+            UnspecificEndOfRegex = DutchDateTimeExtractorConfiguration.UnspecificEndOfRegex;
             UnitRegex = DutchTimeExtractorConfiguration.TimeUnitRegex;
             DateNumberConnectorRegex = DutchDateTimeExtractorConfiguration.DateNumberConnectorRegex;
 
@@ -94,8 +99,10 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
 
         public int GetHour(string text, int hour)
         {
-            var trimmedText = text.Trim().ToLowerInvariant();
             int result = hour;
+
+            var trimmedText = text.Trim().ToLowerInvariant();
+            
             if (trimmedText.EndsWith("morning") && hour >= Constants.HalfDayHourCount)
             {
                 result -= Constants.HalfDayHourCount;
@@ -104,12 +111,14 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
             {
                 result += Constants.HalfDayHourCount;
             }
+
             return result;
         }
 
         public bool GetMatchedNowTimex(string text, out string timex)
         {
             var trimmedText = text.Trim().ToLowerInvariant();
+
             if (trimmedText.EndsWith("now"))
             {
                 timex = "PRESENT_REF";

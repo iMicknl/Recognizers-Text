@@ -13,7 +13,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
 
         public IDateTimeParser TimeParser { get; }
 
-        public IDateTimeExtractor DateExtractor { get; }
+        public IDateExtractor DateExtractor { get; }
 
         public IDateTimeParser DateParser { get; }
 

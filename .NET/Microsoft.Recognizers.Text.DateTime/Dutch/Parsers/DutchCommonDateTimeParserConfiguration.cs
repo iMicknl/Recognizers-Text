@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using System.Text.RegularExpressions;
 
 using Microsoft.Recognizers.Text.DateTime.Dutch.Utilities;
 using Microsoft.Recognizers.Definitions.Dutch;
@@ -31,6 +30,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
             IntegerExtractor = Number.Dutch.IntegerExtractor.GetInstance();
             OrdinalExtractor = Number.Dutch.OrdinalExtractor.GetInstance();
 
+            TimeZoneParser = new BaseTimeZoneParser();
             NumberParser = new BaseNumberParser(new DutchNumberParserConfiguration());
             DateExtractor = new BaseDateExtractor(new DutchDateExtractorConfiguration(this));
             TimeExtractor = new BaseTimeExtractor(new DutchTimeExtractorConfiguration(this));

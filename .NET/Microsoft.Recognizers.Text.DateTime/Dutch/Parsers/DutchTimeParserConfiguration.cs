@@ -16,19 +16,13 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
         public Regex MealTimeRegex { get; }
 
         private static readonly Regex TimeSuffixFull =
-            new Regex(
-                DateTimeDefinitions.TimeSuffixFull,
-                RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            new Regex(DateTimeDefinitions.TimeSuffixFull, RegexOptions.Singleline);
 
         private static readonly Regex LunchRegex =
-            new Regex(
-                DateTimeDefinitions.LunchRegex,
-                RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            new Regex(DateTimeDefinitions.LunchRegex, RegexOptions.Singleline);
 
         private static readonly Regex NightRegex =
-            new Regex(
-                DateTimeDefinitions.NightRegex,
-                RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            new Regex(DateTimeDefinitions.NightRegex, RegexOptions.Singleline);
 
         public IEnumerable<Regex> TimeRegexes { get; }
 
@@ -45,12 +39,13 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
             TimeRegexes = DutchTimeExtractorConfiguration.TimeRegexList;
             UtilityConfiguration = config.UtilityConfiguration;
             Numbers = config.Numbers;
-            TimeZoneParser = new BaseTimeZoneParser();
+            TimeZoneParser = config.TimeZoneParser;
         }
 
         public void AdjustByPrefix(string prefix, ref int hour, ref int min, ref bool hasMin)
         {
             int deltaMin;
+
             var trimedPrefix = prefix.Trim().ToLowerInvariant();
 
             if (trimedPrefix.StartsWith("half"))
@@ -91,15 +86,17 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
                 min += 60;
                 hour -= 1;
             }
+
             hasMin = true;
         }
 
         public void AdjustBySuffix(string suffix, ref int hour, ref int min, ref bool hasMin, ref bool hasAm, ref bool hasPm)
         {
-            var trimedSuffix = suffix.Trim().ToLowerInvariant();
+            var lowerSuffix = suffix.ToLowerInvariant();
             var deltaHour = 0;
-            var match = TimeSuffixFull.Match(trimedSuffix);
-            if (match.Success && match.Index == 0 && match.Length == trimedSuffix.Length)
+            var match = TimeSuffixFull.MatchExact(lowerSuffix, trim: true);
+
+            if (match.Success)
             {
                 var oclockStr = match.Groups["oclock"].Value;
                 if (string.IsNullOrEmpty(oclockStr))

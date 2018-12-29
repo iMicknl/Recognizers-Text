@@ -13,29 +13,32 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
             DatePeriodExtractor = new BaseDatePeriodExtractor(new DutchDatePeriodExtractorConfiguration(this));
         }
 
-        public IDateTimeExtractor DateExtractor { get; }
+        public IDateExtractor DateExtractor { get; }
         public IDateTimeExtractor DatePeriodExtractor { get; }
 
         private static readonly Regex OrRegex =
-            new Regex(DateTimeDefinitions.OrRegex, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            new Regex(DateTimeDefinitions.OrRegex, RegexOptions.Singleline);
 
         private static readonly Regex DayRegex =
-            new Regex(DateTimeDefinitions.DayRegex, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            new Regex(DateTimeDefinitions.DayRegex, RegexOptions.Singleline);
 
         public static readonly Regex ThisPrefixRegex =
-            new Regex(DateTimeDefinitions.ThisPrefixRegex, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            new Regex(DateTimeDefinitions.ThisPrefixRegex, RegexOptions.Singleline);
 
         public static readonly Regex PastPrefixRegex =
-            new Regex(DateTimeDefinitions.PastPrefixRegex, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            new Regex(DateTimeDefinitions.PastPrefixRegex, RegexOptions.Singleline);
 
         public static readonly Regex NextPrefixRegex =
-            new Regex(DateTimeDefinitions.NextPrefixRegex, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            new Regex(DateTimeDefinitions.NextPrefixRegex, RegexOptions.Singleline);
 
         public static readonly Regex AmRegex =
-            new Regex(DateTimeDefinitions.AmRegex, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            new Regex(DateTimeDefinitions.AmRegex, RegexOptions.Singleline);
 
         public static readonly Regex PmRegex =
-            new Regex(DateTimeDefinitions.PmRegex, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            new Regex(DateTimeDefinitions.PmRegex, RegexOptions.Singleline);
+
+        public static readonly Regex RangePrefixRegex =
+            new Regex(DateTimeDefinitions.RangePrefixRegex, RegexOptions.Singleline);
 
         public static readonly Regex[] RelativePrefixList =
         {
@@ -54,5 +57,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
         Regex IDateTimeAltExtractorConfiguration.OrRegex => OrRegex;
 
         Regex IDateTimeAltExtractorConfiguration.DayRegex => DayRegex;
+
+        Regex IDateTimeAltExtractorConfiguration.RangePrefixRegex => RangePrefixRegex;
     }
 }
