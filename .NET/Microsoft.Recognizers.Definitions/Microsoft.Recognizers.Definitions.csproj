@@ -303,16 +303,12 @@
     <None Update="Dutch\ChoiceDefinitions.tt">
     </None>
     <None Update="Dutch\DateTimeDefinitions.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DateTimeDefinitions.cs</LastGenOutput>
     </None>
     <None Update="Dutch\NumberDefinitions.tt">
     </None>
     <None Update="Dutch\NumbersWithUnitDefinitions.tt">
     </None>
     <None Update="Dutch\TimeZoneDefinitions.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TimeZoneDefinitions.cs</LastGenOutput>
     </None>
     <None Update="English\ChoiceDefinitions.tt">
     </None>
