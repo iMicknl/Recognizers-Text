@@ -47,23 +47,23 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
         {
             int deltaMin;
 
-            var trimedPrefix = prefix.Trim().ToLowerInvariant();
+            var trimmedPrefix = prefix.Trim().ToLowerInvariant();
 
-            if (trimedPrefix.StartsWith("half"))
+            if (trimmedPrefix.StartsWith("half"))
             {
                 deltaMin = -30;
             }
-            else if (trimedPrefix.StartsWith("kwart over"))
+            else if (trimmedPrefix.StartsWith("kwart over"))
             {
                 deltaMin = 15;
             }
-            else if (trimedPrefix.StartsWith("kwart voor"))
+            else if (trimmedPrefix.StartsWith("kwart voor"))
             {
                 deltaMin = -15;
             }
             else
             {
-                var match = DutchTimeExtractorConfiguration.LessThanOneHour.Match(trimedPrefix);
+                var match = DutchTimeExtractorConfiguration.LessThanOneHour.Match(trimmedPrefix);
                 var minStr = match.Groups["deltamin"].Value;
                 if (!string.IsNullOrWhiteSpace(minStr))
                 {
@@ -76,7 +76,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
                 }
             }
 
-            if (trimedPrefix.EndsWith("to"))
+            if (trimmedPrefix.EndsWith("to"))
             {
                 deltaMin = -deltaMin;
             }
