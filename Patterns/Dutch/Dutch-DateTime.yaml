@@ -303,21 +303,21 @@ PmRegex: !simpleRegex
 PmRegexFull: !simpleRegex
   def: (?<pm>((at|in|around|on|for)\s+(the\s+)?)?(afternoon|evening|midnight|night|lunchtime))
 AmRegex: !simpleRegex
-  def: (?<am>((at|in|around|on|for)\s+(the\s+)?)?(morning))
+  def: (?<am>((at|in|around|on|for)\s+(the\s+)?)?(morgen))
 LunchRegex: !simpleRegex
-  def: \b(lunchtime)\b
+  def: \b(lunchtijd)\b
 NightRegex: !simpleRegex
-  def: \b(midnight|night)\b
+  def: \b(middernacht|nacht|'s nachts)\b
 CommonDatePrefixRegex: !simpleRegex
   def: ^[\.]
 LessThanOneHour: !nestedRegex
-  def: (?<lth>(a\s+)?quarter|three quarter(s)?|half( an hour)?|{BaseDateTime.DeltaMinuteRegex}(\s+(minute|minutes|min|mins))|{DeltaMinuteNumRegex}(\s+(minute|minutes|min|mins)))
+  def: (?<lth>(een\s+)?kwartier|drie kwartier|half uur)?|{BaseDateTime.DeltaMinuteRegex}(\s+(minute|minutes|min|mins))|{DeltaMinuteNumRegex}(\s+(minute|minutes|min|mins)))
   references: [ BaseDateTime.DeltaMinuteRegex, DeltaMinuteNumRegex ]
 WrittenTimeRegex: !nestedRegex
   def: (?<writtentime>{HourNumRegex}\s+({MinuteNumRegex}|(?<tens>twenty|thirty|forty|fourty|fifty)\s+{MinuteNumRegex}))
   references: [ HourNumRegex, MinuteNumRegex ]
 TimePrefix: !nestedRegex
-  def: (?<prefix>({LessThanOneHour} past|{LessThanOneHour} to))
+  def: (?<prefix>({LessThanOneHour} na|{LessThanOneHour} voor))
   references: [ LessThanOneHour ]
 TimeSuffix: !nestedRegex
   def: (?<suffix>{AmRegex}|{PmRegex}|{OclockRegex})
@@ -329,13 +329,13 @@ BasicTime: !nestedRegex
   def: \b(?<basictime>{WrittenTimeRegex}|{HourNumRegex}|{BaseDateTime.HourRegex}:{BaseDateTime.MinuteRegex}(:{BaseDateTime.SecondRegex})?|{BaseDateTime.HourRegex})
   references: [ WrittenTimeRegex, HourNumRegex, BaseDateTime.HourRegex, BaseDateTime.MinuteRegex, BaseDateTime.SecondRegex ]
 MidnightRegex: !simpleRegex
-  def: (?<midnight>midnight|mid-night|mid night)
+  def: (?<midnight>middernacht)
 MidmorningRegex: !simpleRegex
-  def: (?<midmorning>midmorning|mid-morning|mid morning)
+  def: (?<midmorning>halverwege de ochtend)
 MidafternoonRegex: !simpleRegex
-  def: (?<midafternoon>midafternoon|mid-afternoon|mid afternoon)
+  def: (?<midafternoon>halverwege de middag|namiddag)
 MiddayRegex: !simpleRegex
-  def: (?<midday>midday|mid-day|mid day|((12\s)?noon))
+  def: (?<midday>middag|middaguur)
 MidTimeRegex: !nestedRegex
   def: (?<mid>({MidnightRegex}|{MidmorningRegex}|{MidafternoonRegex}|{MiddayRegex}))
   references: [ MidnightRegex, MidmorningRegex, MidafternoonRegex, MiddayRegex ]
@@ -467,7 +467,7 @@ DurationUnitRegex: !nestedRegex
   def: (?<unit>{DateUnitRegex}|hours?|hrs?|h|minutes?|mins?|seconds?|secs?)\b
   references: [ DateUnitRegex ]
 SuffixAndRegex: !simpleRegex
-  def: (?<suffix>\s*(and)\s+((an|a)\s+)?(?<suffix_num>half|quarter))
+  def: (?<suffix>\s*(and)\s+((an|a)\s+)?(?<suffix_num>half|kwart))
 PeriodicRegex: !simpleRegex
   def: \b(?<periodic>dagelijks|maandelijks|wekelijks|twee-wekelijks|jaarlijks)\b
 EachUnitRegex: !nestedRegex
