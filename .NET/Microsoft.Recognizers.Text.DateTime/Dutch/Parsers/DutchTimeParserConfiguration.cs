@@ -59,7 +59,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
             }
             else if (trimedPrefix.StartsWith("kwart voor"))
             {
-                deltaMin = 45;
+                deltaMin = -15;
             }
             else
             {
