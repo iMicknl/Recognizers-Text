@@ -295,15 +295,15 @@ DescRegex: !nestedRegex
 HourNumRegex: !simpleRegex
   def: \b(?<hournum>nul|een|één|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|elf|twaalf|dertien|veertien|vijftien|zestien|zeventien|achttien|negentien|twintig|eenentwintig|tweeentwintig|drieentwintig|vierentwintig)\b
 MinuteNumRegex: !simpleRegex
-  def: (?<minnum>one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty)
+  def: (?<minnum>een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|elf|twaalf|dertien|veertien|vijftien|zestien|zeventien|achttien|negentien|twintig|dertig|veertig|vijftigy)
 DeltaMinuteNumRegex: !simpleRegex
-  def: (?<deltaminnum>one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty)
+  def: (?<deltaminnum>een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|elf|twaalf|dertien|veertien|vijftien|zestien|zeventien|achttien|negentien|twintig|dertig|veertig|vijftig)
 PmRegex: !simpleRegex
-  def: (?<pm>(((at|in|around|on|for)\s+(the\s+)?)?(afternoon|evening|midnight|lunchtime))|((at|in|around|on|for)\s+(the\s+)?night))
+  def: (?<pm>(((in|rond|tegen)\s+(de\s+)?)?(middag|namiddag|nacht))|((at|in|around|on|for)\s+(the\s+)?night))
 PmRegexFull: !simpleRegex
-  def: (?<pm>((at|in|around|on|for)\s+(the\s+)?)?(afternoon|evening|midnight|night|lunchtime))
+  def: (?<pm>((in|rond|tegen)\s+(de\s+)?)?(middag|namiddag|nacht)|'s middags|'s avonds)
 AmRegex: !simpleRegex
-  def: (?<am>((at|in|around|on|for)\s+(the\s+)?)?(morgen))
+  def: (?<am>((in|rond|tegen)\s+(de\s+)?)?(morgen)|'s morgens)
 LunchRegex: !simpleRegex
   def: \b(lunchtijd)\b
 NightRegex: !simpleRegex
@@ -314,7 +314,7 @@ LessThanOneHour: !nestedRegex
   def: (?<lth>kwart voor|kwart over|half|{BaseDateTime.DeltaMinuteRegex}(\s+(minuten))|{DeltaMinuteNumRegex}(\s+(minuten)))
   references: [ BaseDateTime.DeltaMinuteRegex, DeltaMinuteNumRegex ]
 WrittenTimeRegex: !nestedRegex
-  def: (?<writtentime>{MinuteNumRegex}\s+(over|voor)\s+({HourNumRegex}|{HourNumRegex}\s+({MinuteNumRegex}|(?<tens>twenty|thirty|forty|fourty|fifty)\s+{MinuteNumRegex}))
+  def: (?<writtentime>({HourNumRegex}\s+({MinuteNumRegex}|{MinuteNumRegex}(en)?\s+(?<tens>twintig|dertig|veertig|vijftig)))|{MinuteNumRegex}\s+(over|voor)\s+{HourNumRegex})
   references: [ HourNumRegex, MinuteNumRegex ]
 TimePrefix: !nestedRegex
   def: (?<prefix>({LessThanOneHour} na|{LessThanOneHour} voor))
