@@ -51,13 +51,13 @@ namespace Microsoft.Recognizers.Text.DateTime.Dutch
 
             if (trimedPrefix.StartsWith("half"))
             {
-                deltaMin = 30;
+                deltaMin = -30;
             }
-            else if (trimedPrefix.StartsWith("a quarter") || trimedPrefix.StartsWith("quarter"))
+            else if (trimedPrefix.StartsWith("kwart over"))
             {
                 deltaMin = 15;
             }
-            else if (trimedPrefix.StartsWith("three quarter"))
+            else if (trimedPrefix.StartsWith("kwart voor"))
             {
                 deltaMin = 45;
             }

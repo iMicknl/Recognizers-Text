@@ -311,10 +311,10 @@ NightRegex: !simpleRegex
 CommonDatePrefixRegex: !simpleRegex
   def: ^[\.]
 LessThanOneHour: !nestedRegex
-  def: (?<lth>(een\s+)?kwartier|drie kwartier|half uur|{BaseDateTime.DeltaMinuteRegex}(\s+(minute|minutes|min|mins))|{DeltaMinuteNumRegex}(\s+(minute|minutes|min|mins)))
+  def: (?<lth>kwart voor|kwart over|half|{BaseDateTime.DeltaMinuteRegex}(\s+(minuten))|{DeltaMinuteNumRegex}(\s+(minuten)))
   references: [ BaseDateTime.DeltaMinuteRegex, DeltaMinuteNumRegex ]
 WrittenTimeRegex: !nestedRegex
-  def: (?<writtentime>{HourNumRegex}\s+({MinuteNumRegex}|(?<tens>twenty|thirty|forty|fourty|fifty)\s+{MinuteNumRegex}))
+  def: (?<writtentime>{MinuteNumRegex}\s+(over|voor)\s+({HourNumRegex}|{HourNumRegex}\s+({MinuteNumRegex}|(?<tens>twenty|thirty|forty|fourty|fifty)\s+{MinuteNumRegex}))
   references: [ HourNumRegex, MinuteNumRegex ]
 TimePrefix: !nestedRegex
   def: (?<prefix>({LessThanOneHour} na|{LessThanOneHour} voor))
@@ -526,9 +526,9 @@ AfterRegex: !nestedRegex
 SinceRegex: !simpleRegex
   def: (\b(since|after\s+or\s+equal\s+to|starting\s+(from|on|with)|as\s+early\s+as|any\s+time\s+from)\b\s*)|(?<!\w|<)(>=)
 AroundRegex: !simpleRegex
-  def: (\b(around|circa)\s*\b)
+  def: (\b(rondom|ongeveer|rond)\s*\b)
 AgoRegex: !simpleRegex
-  def: \b(ago|before\s+(?<day>gisteren|vandaag))\b
+  def: \b(vanaf|voor\s+(?<day>gisteren|vandaag))\b
 LaterRegex: !simpleRegex
   def: \b(later|vanaf nu|(van|na) (?<day>morgen|vandaag))\b
 InConnectorRegex: !simpleRegex
@@ -546,7 +546,7 @@ AfternoonStartEndRegex: !nestedRegex
   def: (^('s middags|in de middag|{PmDescRegex}))|(('s middags|in de middag|{PmDescRegex})$)
   references: [ PmDescRegex ]
 EveningStartEndRegex: !simpleRegex
-  def: (^(avond|'s avonds'))|((avond|'s avonds)$)
+  def: (^(avond|'s avonds|in de avond))|((avond|'s avonds|in de avond)$)
 NightStartEndRegex: !simpleRegex
   def: (^(gedurende de nacht|vannacht|nacht|'s nachts))|((gedurende de nacht|vannacht|'s nachts|nacht)$)
 InexactNumberRegex: !simpleRegex
