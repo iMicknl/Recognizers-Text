@@ -18,42 +18,114 @@ using Microsoft.Recognizers.Text.Sequence;
 
 namespace RecognizerFunction
 {
-    public static class AnalyzeEntities
+    public static class CognitiveSearch
     {
 
         private const string DefaultCulture = Culture.English;
 
-        [FunctionName("entities")]
+        #region Classes used to serialize the response
+        private class WebApiResponseError
+        {
+            public string message { get; set; }
+        }
+
+        private class WebApiResponseWarning
+        {
+            public string message { get; set; }
+        }
+
+        private class WebApiRequestRecord
+        {
+            public string recordId { get; set; }
+            public RecordData data { get; set; }
+        }
+
+        private class RecordData
+        {
+            public string text { get; set; }
+            public string language { get; set; }
+        }
+
+        private class WebApiResponseRecord
+        {
+            public string recordId { get; set; }
+            public Dictionary<string, object> data { get; set; }
+            public List<WebApiResponseError> errors { get; set; }
+            public List<WebApiResponseWarning> warnings { get; set; }
+        }
+
+        private class WebApiEnricherResponse
+        {
+            public List<WebApiResponseRecord> values { get; set; }
+        }
+        #endregion
+
+        [FunctionName("cognitivesearch")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# AnalyzeEntities function processed a request.");
-
-            string text = req.Query["text"];
-            string cultureCode = req.Query["culture"];
+            log.LogInformation("C# CognitiveSearch function processed a request.");
 
             string requestBody = new StreamReader(req.Body).ReadToEnd();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
-            text = text ?? data?.text as string;
-            cultureCode = cultureCode ?? data?.cultureCode as string;
 
-            if (text == null)
+            // Validation
+            if (data?.values == null)
             {
-                return new BadRequestObjectResult("Please pass a text on the query string or in the request body");
+                return new BadRequestObjectResult("Could not find values array");
+            }
+            if (data?.values.HasValues == false || data?.values.First.HasValues == false)
+            {
+                // It could not find a record, then return empty values array.
+                return new BadRequestObjectResult("Could not find valid records in values array");
             }
 
-            string culture = ResolveCulture(cultureCode);
+            // Put together response
+            WebApiEnricherResponse response = new WebApiEnricherResponse();
+            response.values = new List<WebApiResponseRecord>();
 
-            // Retrieve all the parsers and call 'Parse' to recognize all the values from the user input
-            var results = ParseAll(text, culture);
+            // Loop through all incoming objects
+            foreach (var record in data.values)
+            {
+                IEnumerable<ModelResult> results;
+                var recordId = record.recordId as string;
+                var originalText = record.data.text as string;
+                var language = record.data.language as string;
 
-            // Log output
-            log.LogInformation(results.Any() ? string.Format("I found {0:d} entities in culture {1}:", results.Count(), culture) : string.Format("I found no entities in culture {0}.", culture));
-            results.ToList().ForEach(result => log.LogInformation(JsonConvert.SerializeObject(result, Formatting.Indented)));
+                // Check if recordId exists
+                if (recordId == null)
+                {
+                    return new BadRequestObjectResult("recordId cannot be null");
+                }
 
-            // Return array
-            return (ActionResult)new OkObjectResult(results);
+                // Log incoming row
+                log.LogInformation(JsonConvert.SerializeObject(record, Formatting.Indented));
+
+                // Resolve culture
+                string culture = ResolveCulture(language);
+
+                // Retrieve all the parsers and call 'Parse' to recognize all the values from the user input
+                results = ParseAll(originalText, culture);
+
+                // Log output
+                log.LogInformation(results.Any() ? string.Format("I found {0:d} entities in culture {1}:", results.Count(), culture) : string.Format("I found no entities in culture {0}.", culture));
+
+                // Create response
+                WebApiResponseRecord responseRecord = new WebApiResponseRecord
+                {
+                    data = new Dictionary<string, object>(),
+                    recordId = recordId
+                };
+    
+                responseRecord.data.Add("culture", culture);
+                responseRecord.data.Add("entities", results); // Or just one entity?
+
+                response.values.Add(responseRecord);
+            }
+      
+            // Return all results
+            return (ActionResult)new OkObjectResult(response);
         }
 
         /// <summary>
