@@ -44,6 +44,7 @@ if EXIST "%VSInstallDir%\MSBuild\!MsBuildVersion!\Bin\MSBuild.exe" (
 ECHO Found MSBuild !MSBuild!
 
 ECHO.
+ECHO %~dp0
 ECHO # Check for empty and duplicate inputs in Specs
 Powershell -ExecutionPolicy Bypass "& {%~dp0\buildtools\checkSpec.ps1; exit $LastExitCode }"
 IF %ERRORLEVEL% NEQ 0 (
