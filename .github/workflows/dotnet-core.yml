@@ -18,8 +18,8 @@ jobs:
 #       with:
 #         dotnet-version: 3.0
     - name: Install dependencies
-      run: cd .NET\
+      run: cd .NET
     - name: Build
-      run: build.ci.cmd
+      run: Invoke-Item build.ci.cmd
     - name: Test
-      run: tests.ci.cmd
+      run: Invoke-Item tests.ci.cmd
