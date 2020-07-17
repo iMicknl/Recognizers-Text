@@ -20,6 +20,6 @@ jobs:
     - name: Install dependencies
       run: cd .NET
     - name: Build
-      run: Invoke-Item build.ci.cmd
+      run: Invoke-Item .NET\Build.CI.cmd
     - name: Test
-      run: Invoke-Item tests.ci.cmd
+      run: Invoke-Item .NET\tests.ci.cmd
