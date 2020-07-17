@@ -13,10 +13,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       
-#     - name: Setup .NET Core
-#       uses: actions/setup-dotnet@v1
-#       with:
-#         dotnet-version: 3.0
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.0
 
     - name: Setup MSBuild Path
       uses: microsoft/setup-msbuild@v1.0.0
