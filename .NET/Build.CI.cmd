@@ -46,7 +46,7 @@ ECHO Found MSBuild !MSBuild!
 ECHO.
 ECHO %~dp0
 ECHO # Check for empty and duplicate inputs in Specs
-Powershell -ExecutionPolicy Bypass "& {$PSScriptRoot\buildtools\checkSpec.ps1; exit $LastExitCode }"
+Powershell -ExecutionPolicy Bypass "& {%~dp0\buildtools\checkSpec.ps1; exit $LastExitCode }"
 IF %ERRORLEVEL% NEQ 0 (
 	ECHO # Failed, including empty or duplicate inputs in Specs
 	EXIT /b %ERRORLEVEL%
@@ -54,15 +54,15 @@ IF %ERRORLEVEL% NEQ 0 (
 
 ECHO.
 ECHO # Restoring NuGet dependencies
-CALL "buildtools\nuget" restore
+CALL "%~dp0\buildtools\nuget" restore %~dp0
 
 set configuration=Release
 ECHO.
 ECHO # Generate resources
-CALL !MSBuild! Microsoft.Recognizers.Definitions.Common\Microsoft.Recognizers.Definitions.Common.csproj /t:Clean,Build /p:Configuration=%configuration%
+CALL !MSBuild! %~dp0\Microsoft.Recognizers.Definitions.Common\Microsoft.Recognizers.Definitions.Common.csproj /t:Clean,Build /p:Configuration=%configuration%
 
 ECHO # Building .NET solution (%configuration%)
-CALL !MSBuild! Microsoft.Recognizers.Text.sln /t:Restore,Clean,Build /p:Configuration=%configuration%
+CALL !MSBuild! %~dp0\Microsoft.Recognizers.Text.sln /t:Restore,Clean,Build /p:Configuration=%configuration%
 IF %ERRORLEVEL% NEQ 0 (
 	ECHO # Failed to build .NET Project.
 	EXIT /b %ERRORLEVEL%
